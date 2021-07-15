@@ -4,12 +4,16 @@
 	<head>
 		<regionBase>
 			<region id="screenReg" width="100%" height="100%" zIndex="2">
-				<region id="frameReg" left="5%" top="6.7%" width="18.5%" height="18.5%" zIndex="3"/>
-			</region>
+				<region id="frameReg" left="0%" top="85%" width="100%" height="15%" zIndex="3"/>
+				<region id="bpmReg" left="85%" top="10%" width="15%" height="9%" zIndex="3"/>]
+				<region id="dashboardReg" left="65%" top="0%" width="35%" height="45%" zIndex="3"/>
+		</region>
 		</regionBase>
 		<descriptorBase>
-				<descriptor id="screenDesc" region="screenReg"/>
-					
+			<descriptor id="screenDesc" region="screenReg"/>
+			<descriptor id="notifyDesc" region="frameReg" explicitDur="15s"/>
+			<descriptor id="bpmDesc" region="bpmReg" explicitDur="15s"/>
+			<descriptor id="dashboardDesc" region="dashboardReg" explicitDur="30s"/>
 		</descriptorBase>
 		<connectorBase>
 			<importBase documentURI="causalConnBase.ncl" alias="conEx"/>
@@ -19,32 +23,25 @@
 	<body>
 		<port id="entry" component="mainVideo"/>
 		<media id="mainVideo" src="../media/video.mp4" descriptor="screenDesc">
+			<area id="segNotify" begin="5s"/>
+			<area id="segBpm" begin="5s"/>
+			<area id="segDashboard" begin="21s"/>
 		</media>
-		<!--<media id="choro" src="../media/choro.mp4" descriptor="audioDesc"/>-->
-		<!--<media id="drible" src="../media/drible.mp4" descriptor="dribleDesc"/>-->
-		<!--<media id="photo" src="../media/photo.png" descriptor="photoDesc"/>-->
-		<!--
-            <area id="segDrible" begin="12s"/>
-			<area id="segPhoto" begin="41s"/>
-        <link  id="lMusic" xconnector="conEx#onBeginStart_delay">
-			<bind role="onBegin" component="animation"/>
-			<bind role="start" component="choro">
-				<bindParam name="delay" value="5s"/>
-			</bind>				
-		</link>
-        <link  id="lDrible" xconnector="conEx#onBeginStart">
-			<bind role="onBegin" component="animation" interface="segDrible"/>
-			<bind role="start" component="drible"/>			
+		<media id="dashboard" src="../media/dashboard.jpeg" descriptor="dashboardDesc"/>
+		<media id="notify" src="../media/notify.jpeg" descriptor="notifyDesc"/>
+		<media id="bpm" src="../media/bpm.jpeg" descriptor="bpmDesc"/>
+		<link  id="lNotify" xconnector="conEx#onBeginStart">
+			<bind role="onBegin" component="mainVideo" interface="segNotify"/>
+			<bind role="start" component="notify"/>			
 		</link>	
-		<link  id="lPhoto" xconnector="conEx#onBeginStart">
-			<bind role="onBegin" component="animation" interface="segPhoto"/>
-			<bind role="start" component="photo"/>			
-		</link>	
-		<link  id="lEnd" xconnector="conEx#onEndStop">
-			<bind role="onEnd" component="animation"/>
-			<bind role="stop" component="choro"/>			
+		<link  id="lBpm" xconnector="conEx#onBeginStart">
+			<bind role="onBegin" component="mainVideo" interface="segBpm"/>
+			<bind role="start" component="bpm"/>			
 		</link>
-        -->
-		
+		<link  id="lDashboard" xconnector="conEx#onBeginStart">
+			<bind role="onBegin" component="mainVideo" interface="segDashboard"/>
+			<bind role="start" component="dashboard"/>			
+		</link>
+	
 	</body>
 </ncl>
